@@ -1,0 +1,15 @@
+<?php
+
+namespace {{ namespace }};
+
+{{ factoryImport }}
+use Illuminate\Database\Eloquent\Attributes\Table;
+use Illuminate\Database\Eloquent\Concerns\HasUuids;
+use Illuminate\Database\Eloquent\Model;
+
+#[Table(keyType: 'string', incrementing: false)]
+class {{ class }} extends Model
+{
+    {{ factory }}
+    use HasUuids;
+}

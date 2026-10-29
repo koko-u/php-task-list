@@ -1,0 +1,73 @@
+services:
+  db:
+    image: postgres:18-trixie
+    container_name: postgres
+    environment:
+      POSTGRES_USER: ${DB_USERNAME}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_DB: ${DB_DATABASE}
+    restart: always
+    volumes:
+      - type: volume
+        source: tasks_db_data
+        target: /var/lib/postgresql
+        volume:
+          nocopy: true
+    ports:
+      - "${DB_PORT}:5432"
+  ui:
+    image: dpage/pgadmin4:9
+    container_name: pgadmin
+    environment:
+      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_EMAIL}
+      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_PASSWORD}
+      PGADMIN_CONFIG_SERVER_MODE: "False"
+      PGADMIN_CONFIG_MASTER_PASSWORD_REQUIRED: "False"
+      # servers.json で使用する環境変数をpgAdminコンテナに渡す
+      DATABASE_NAME: ${DB_DATABASE}
+      DATABASE_USER: ${DB_USERNAME}
+      # pgAdmin に servers.json の場所を教える
+      PGADMIN_SERVER_JSON_FILE: /var/lib/pgadmin/servers/servers.json
+    ports:
+      - "${PGADMIN_PORT}:80"
+    volumes:
+      - tasks_pgadmin_data:/var/lib/pgadmin
+      - ./config/servers.json.template:/pgadmin4/servers.json.template
+      - ./pgadmin_entrypoint.sh:/pgadmin_entrypoint.sh
+    entrypoint: [ "/bin/bash", "/pgadmin_entrypoint.sh" ]
+    depends_on:
+      - db
+  mail:
+    image: axllent/mailpit:v1.32
+    container_name: mailpit
+    ports:
+        - "1025:1025"
+        - "8025:8025"
+    restart: unless-stopped
+    volumes:
+        - tasks_mail_data:/data
+    environment:
+        - TZ=Asia/Tokyo
+        - MP_MAX_MESSAGES=1000
+        - MP_MAX_AGE=7d
+        - MP_DATABASE=/data/mailpit.db
+        - MP_SMTP_AUTH_ACCEPT_ANY=true
+        - MP_SMTP_AUTH_ALLOW_INSECURE=true
+  fs:
+      image: rustfs/rustfs:1.0.3
+      container_name: rustfs
+      restart: always
+      ports:
+          - "9000:9000"
+          - "9001:9001"
+      environment:
+          - RUSTFS_ACCESS_KEY=${RUSTFS_ACCESS_KEY_ID}
+          - RUSTFS_SECRET_KEY=${RUSTFS_SECRET_ACCESS_KEY}
+          - RUSTFS_CONSOLE_ENABLE=true
+      volumes:
+          - tasks_rustfs_data:/data
+volumes:
+  tasks_db_data:
+  tasks_pgadmin_data:
+  tasks_mail_data:
+  tasks_rustfs_data:
