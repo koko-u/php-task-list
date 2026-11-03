@@ -10,9 +10,10 @@
 @endphp
 
 @section('content')
-    <h1 class="py-4 text-3xl font-semibold text-gray-800">
-        Task List
-    </h1>
+    <div class="flex flex-wrap items-center justify-between gap-4 py-4">
+        <h1 class="text-3xl font-semibold text-gray-800">Task List</h1>
+        <a href="{{ route('tasks.create') }}" class="rounded-md bg-blue-100 px-4 py-2 font-medium text-blue-800 transition-colors hover:bg-blue-700 hover:text-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600">Add New Task</a>
+    </div>
     <div class="overflow-x-auto rounded-lg border border-slate-200 bg-white">
         @if ($tasks->isEmpty())
             <div class="px-6 py-4 text-slate-500">

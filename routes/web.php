@@ -3,8 +3,10 @@
 use App\Features\Auth\Actions\Login;
 use App\Features\Auth\Actions\Logout;
 use App\Features\Auth\Actions\Register;
+use App\Features\Tasks\Actions\Create;
 use App\Features\Tasks\Actions\Index;
 use App\Features\Tasks\Actions\Show;
+use App\Features\Tasks\Actions\Store;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', fn () => redirect()->route('tasks.index'));
@@ -19,6 +21,8 @@ Route::middleware('guest')->group(function (): void {
 Route::middleware('auth')->group(function (): void {
     Route::post('/logout', Logout::class)->name('logout');
     Route::get('/tasks', Index::class)->name('tasks.index');
+    Route::get('/tasks/create', Create::class)->name('tasks.create');
+    Route::post('/tasks', Store::class)->name('tasks.store');
     Route::get('/tasks/{task_id}', Show::class)
         ->whereUuid('task_id')
         ->name('tasks.show');
