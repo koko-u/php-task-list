@@ -33,6 +33,16 @@
                     {{ $task->status->toLabel() }}
                 </span>
             </div>
+            <dl class="flex flex-wrap gap-x-10 gap-y-4 text-sm">
+                <div>
+                    <dt class="font-medium text-slate-500">Assignee</dt>
+                    <dd class="mt-1 text-slate-900">{{ $task->assignee?->name ?? 'Unassigned' }}</dd>
+                </div>
+                <div>
+                    <dt class="font-medium text-slate-500">Creator</dt>
+                    <dd class="mt-1 text-slate-900">{{ $task->creator->name }}</dd>
+                </div>
+            </dl>
             <p class="whitespace-pre-line text-slate-700">{{ $task->description }}</p>
             @if ($task->longDescription)
                 <p class="whitespace-pre-line text-slate-600">{{ $task->longDescription }}</p>

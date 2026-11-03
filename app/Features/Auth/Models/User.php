@@ -3,6 +3,7 @@
 namespace App\Features\Auth\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+use App\Features\Tasks\Models\Task;
 use Database\Factories\UserFactory;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Attributes\Hidden;
@@ -10,6 +11,7 @@ use Illuminate\Database\Eloquent\Attributes\Table;
 use Illuminate\Database\Eloquent\Attributes\UseFactory;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
@@ -24,6 +26,18 @@ class User extends Authenticatable
 
     use HasUuids;
     use Notifiable;
+
+    /** @return HasMany<Task, $this> */
+    public function assignedTasks(): HasMany
+    {
+        return $this->hasMany(Task::class, 'assignee_id');
+    }
+
+    /** @return HasMany<Task, $this> */
+    public function createdTasks(): HasMany
+    {
+        return $this->hasMany(Task::class, 'creator_id');
+    }
 
     /**
      * Get the attributes that should be cast.
