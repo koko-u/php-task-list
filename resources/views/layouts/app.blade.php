@@ -12,6 +12,22 @@
 </head>
 <body class="min-h-screen bg-gray-100 font-sans text-slate-900 antialiased">
 
+<nav aria-label="Account" class="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-4 px-4 py-4 sm:px-6 lg:px-8">
+    <a href="{{ route('tasks.index') }}" class="font-semibold">Task List</a>
+    <div class="flex items-center gap-4">
+        @auth
+            <span>{{ auth()->user()->name }}</span>
+            <form method="POST" action="{{ route('logout') }}">
+                @csrf
+                <button type="submit" class="text-blue-600 hover:underline">Log out</button>
+            </form>
+        @else
+            <a href="{{ route('login') }}" class="text-blue-600 hover:underline">Log in</a>
+            <a href="{{ route('register') }}" class="text-blue-600 hover:underline">Sign up</a>
+        @endauth
+    </div>
+</nav>
+
 @include("layouts._flash-message")
 
 
