@@ -2,9 +2,9 @@
 
 namespace App\Features\Auth\Actions;
 
+use App\Features\Auth\Requests\LoginRequest;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\Str;
@@ -12,12 +12,9 @@ use Illuminate\Validation\ValidationException;
 
 class Login extends Controller
 {
-    public function __invoke(Request $request): RedirectResponse
+    public function __invoke(LoginRequest $request): RedirectResponse
     {
-        $credentials = $request->validate([
-            'email' => ['required', 'string', 'email', 'max:255'],
-            'password' => ['required', 'string'],
-        ]);
+        $credentials = $request->validated();
 
         $throttleKey = 'login:'.Str::lower($credentials['email']).'|'.$request->ip();
 
