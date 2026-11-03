@@ -47,10 +47,24 @@
                     <dd class="mt-1 text-slate-900">{{ $task->dueDate ?? 'Not set' }}</dd>
                 </div>
             </dl>
-            <p class="whitespace-pre-line text-slate-700">{{ $task->description }}</p>
-            @if ($task->longDescription)
-                <p class="whitespace-pre-line text-slate-600">{{ $task->longDescription }}</p>
-            @endif
+            <div x-data="{ expanded: false }" class="space-y-4">
+                <div class="flex items-start justify-between gap-3">
+                    <p class="min-w-0 whitespace-pre-line wrap-break-word text-slate-700">{{ $task->description }}</p>
+                    @if ($task->longDescription)
+                        <button type="button" @click="expanded = ! expanded" :aria-expanded="expanded.toString()"
+                                aria-controls="long-description" aria-label="Toggle long description"
+                                class="shrink-0 cursor-pointer text-slate-700 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600">
+                            <svg width="24" height="24" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+                                 stroke="currentColor" stroke-width="1.5" aria-hidden="true" :class="{ 'rotate-180': expanded }">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="m6 9 6 6 6-6"/>
+                            </svg>
+                        </button>
+                    @endif
+                </div>
+                @if ($task->longDescription)
+                    <p id="long-description" x-show="expanded" style="display: none;" class="whitespace-pre-line text-slate-600">{{ $task->longDescription }}</p>
+                @endif
+            </div>
         </article>
     </section>
 @endsection
