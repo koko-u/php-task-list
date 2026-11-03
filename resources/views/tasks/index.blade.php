@@ -24,6 +24,7 @@
                 <tr>
                     <th class="px-6 py-3 font-medium">Title</th>
                     <th class="px-6 py-3 font-medium">Status</th>
+                    <th class="px-6 py-3 font-medium">Assignee</th>
                     <th class="w-32 px-6 py-3 font-medium">Actions</th>
                 </tr>
                 </thead>
@@ -35,6 +36,7 @@
                         <td class="px-6 py-4">
                             <x-progress-bar :status="$task->status"/>
                         </td>
+                        <td class="px-6 py-4">{{ $task->assignee_name ?? 'Unassigned' }}</td>
                         <td class="px-6 py-4">
                             <a class="text-blue-600 underline-offset-4 hover:underline focus-visible:underline"
                                href="{{ route('tasks.show', ["task_id" => $task->id]) }}">

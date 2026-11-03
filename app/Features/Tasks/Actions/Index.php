@@ -14,7 +14,11 @@ class Index extends Controller
      */
     public function __invoke(Request $request): View
     {
-        $tasks = Task::query()->orderByDesc('created_at')->get();
+        $tasks = Task::query()
+            ->leftJoin('users as assignees', 'tasks.assignee_id', '=', 'assignees.id')
+            ->select('tasks.*', 'assignees.name as assignee_name')
+            ->orderByDesc('tasks.created_at')
+            ->get();
 
         return view('tasks.index', ['tasks' => $tasks]);
     }

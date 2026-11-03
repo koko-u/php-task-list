@@ -16,7 +16,7 @@ class Show extends Controller
     public function __invoke(Request $request): View|RedirectResponse
     {
         $task_id = $request->route('task_id');
-        $task = Task::query()->where('id', $task_id)->first();
+        $task = Task::query()->with(['assignee', 'creator'])->where('id', $task_id)->first();
         if ($task === null) {
             return redirect()->route('tasks.index')->with('error', 'Task not found');
         }

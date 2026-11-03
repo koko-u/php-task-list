@@ -2,6 +2,7 @@
 
 namespace App\Features\Tasks\Factories;
 
+use App\Features\Auth\Models\User;
 use App\Features\Tasks\Models\Task;
 use App\Features\Tasks\Models\TaskStatus;
 use Illuminate\Database\Eloquent\Factories\Factory;
@@ -19,6 +20,8 @@ class TaskFactory extends Factory
     public function definition(): array
     {
         return [
+            'creator_id' => User::factory(),
+            'assignee_id' => null,
             'title' => $this->faker->sentence(3),
             'description' => $this->faker->paragraph(2),
             'longDescription' => $this->faker->optional()->paragraph(4),
