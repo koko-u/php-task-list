@@ -11,6 +11,10 @@
     @vite(['resources/js/app.js', 'resources/css/app.css'])
 </head>
 <body class="min-h-screen bg-gray-100 font-sans text-slate-900 antialiased">
+
+@include("layouts._flash-message")
+
+
 <main class="mx-auto max-w-6xl px-4 py-10 sm:px-6 sm:py-16 lg:px-8">
     @yield('content')
 </main>

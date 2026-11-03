@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Features\Tasks\Seeders\TaskSeeder;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -15,6 +16,7 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         $this->call([
+            TaskSeeder::class,
         ]);
     }
 }
