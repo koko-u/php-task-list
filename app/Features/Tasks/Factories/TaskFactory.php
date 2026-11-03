@@ -25,6 +25,7 @@ class TaskFactory extends Factory
             'title' => $this->faker->sentence(3),
             'description' => $this->faker->paragraph(2),
             'longDescription' => $this->faker->optional()->paragraph(4),
+            'dueDate' => $this->faker->optional(0.3)->date(),
             'status' => $this->faker->randomElement(TaskStatus::cases()),
         ];
     }

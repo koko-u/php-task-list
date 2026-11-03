@@ -42,6 +42,10 @@
                     <dt class="font-medium text-slate-500">Creator</dt>
                     <dd class="mt-1 text-slate-900">{{ $task->creator->name }}</dd>
                 </div>
+                <div>
+                    <dt class="font-medium text-slate-500">Due Date</dt>
+                    <dd class="mt-1 text-slate-900">{{ $task->dueDate ?? 'Not set' }}</dd>
+                </div>
             </dl>
             <p class="whitespace-pre-line text-slate-700">{{ $task->description }}</p>
             @if ($task->longDescription)
